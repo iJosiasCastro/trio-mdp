@@ -12,18 +12,74 @@ CUANDO TODOS TE FALLARON, CUANDO TODOS TE JUZGARON, CUANDO TODOS TE ABANDONARON,
 
 ---
 
-**TARDE OTOÑAL**
+## GUION VISUAL
 
-Es una tarde otoñal y vuelan ya las hojas secas, el viento frío golpea la canción que mi alma encierra, en la añoranza de un sol de una amistad, y de un poema, el árbol seco es un símbolo de mi tristeza
+### **VERSO 1**
 
-Como decir en un canto sin cantar que en mi cabeza, no cabe otra alegría que el Señor y su presencia, no cabe otra esperanza que su amor y sus promesas que me hacen ver adelante ya la primavera
+| LETRA | VISUAL |
+|-------|--------|
+| Es una tarde otoñal y vuelan ya las hojas secas | Plano amplio de un parque en otoño, hojas secas volando con el viento, colores ocres y marrones, luz suave del atardecer, atmósfera melancólica, cámara lenta, cinematografía nostálgica |
+| el viento frío golpea la canción que mi alma encierra | Persona sentada en un banco, cabello y ropa movidos por el viento, expresión pensativa y solitaria, hojas cayendo alrededor, composición cinematográfica, sensación de introspección |
+| en la añoranza de un sol de una amistad, y de un poema | Flashback etéreo: recuerdos superpuestos de momentos felices, sol brillante, risas, amistad, transición suave a presente gris, efecto de memoria desvanecida, tonos sepia |
+| el árbol seco es un símbolo de mi tristeza | Toma de árbol desnudo sin hojas contra cielo gris, ramas desnudas extendiéndose, simbolismo visual fuerte, composición minimalista, sensación de vacío y soledad, cinematografía poética |
 
-Coro
+### **VERSO 2**
 
-Son muchos años que nos conocemos y en muchos caminos yo le he fallado y Él me ha sido fiel me sacó de peligros yo me he quedado tirado Él me ha levantado es mi amigo, otros me han abandonado he quedado raleado Él conmigo por eso haya alegrías o no, siempre lo sigo
+| LETRA | VISUAL |
+|-------|--------|
+| Como decir en un canto sin cantar que en mi cabeza | Close-up de rostro en silencio, labios cerrados, ojos expresivos llenos de emoción contenida, iluminación tenue, profundidad emocional, cinematografía íntima |
+| no cabe otra alegría que el Señor y su presencia | Luz suave comenzando a romper entre las nubes grises, rostro levantándose hacia la luz, expresión de esperanza emergiendo, transición de oscuridad a claridad, atmósfera espiritual |
+| no cabe otra esperanza que su amor y sus promesas | Manos abiertas hacia el cielo, rayos de luz cayendo sobre ellas, sensación de entrega y confianza, composición esperanzadora, iluminación cálida comenzando a aparecer |
+| que me hacen ver adelante ya la primavera | Visión de futuro: mismo paisaje transformándose, brotes verdes apareciendo, flores comenzando a crecer, transición visual de invierno a primavera, colores volviéndose más vibrantes, esperanza visual |
 
-La tarde es gris y la bruma desdibuja La silueta No hay ni un amigo al alcance en quien volcar mi insuficiencia estoy llorando otra vez solo ante Dios como una queja y los gemidos de mi alma son extraña lengua pero no despreciaré de mi Señor tan grande escuela si sólo Él quiere limar a fondo y bien mis asperezas si sólo Él quiere dejarme una canción y una tibieza que le haga bien al que sufre y nunca se consuela
+### **CORO**
 
-Coro
+| LETRA | VISUAL |
+|-------|--------|
+| Son muchos años que nos conocemos | Montaje de momentos a través del tiempo, diferentes estaciones, persona en oración en distintas etapas de la vida, paso del tiempo cinematográfico, composición nostálgica |
+| y en muchos caminos yo le he fallado y Él me ha sido fiel | Camino bifurcado, persona tomando direcciones equivocadas, cayendo, pero luz constante siguiéndola, presencia protectora invisible, simbolismo de fidelidad divina |
+| me sacó de peligros yo me he quedado tirado | Persona caída en el suelo, mano luminosa extendiéndose desde arriba para levantarla, momento de rescate divino, iluminación dramática, composición poderosa de salvación |
+| Él me ha levantado es mi amigo | Persona levantándose con ayuda invisible, expresión de gratitud, brazos abiertos en agradecimiento, luz envolvente, sensación de compañerismo divino, tonos cálidos |
+| otros me han abandonado he quedado raleado | Siluetas de personas alejándose en diferentes direcciones, persona quedando sola, sensación de abandono, pero una luz permanece, contraste entre oscuridad humana y luz divina |
+| Él conmigo por eso haya alegrías o no, siempre lo sigo | Persona caminando con determinación, luz acompañándola constantemente, clima cambiante (sol, lluvia, tormenta) pero ella continúa, fidelidad inquebrantable, cinematografía de perseverancia |
 
-Son muchos años que nos conocemos…
+### **VERSO 3**
+
+| LETRA | VISUAL |
+|-------|--------|
+| La tarde es gris y la bruma desdibuja la silueta | Paisaje envuelto en niebla espesa, siluetas difusas, visibilidad limitada, atmósfera misteriosa y melancólica, cinematografía etérea, tonos grises y azules |
+| No hay ni un amigo al alcance en quien volcar mi insuficiencia | Persona buscando alrededor, espacios vacíos, soledad absoluta, brazos extendidos sin encontrar a nadie, composición de aislamiento, iluminación fría |
+| estoy llorando otra vez solo ante Dios como una queja | Close-up de rostro llorando, lágrimas cayendo, expresión de dolor pero mirando hacia arriba, momento íntimo de vulnerabilidad ante Dios, iluminación suave y compasiva |
+| y los gemidos de mi alma son extraña lengua | Imagen abstracta: ondas sonoras visualizadas, alma expresándose en formas etéreas, comunicación espiritual más allá de palabras, composición artística y mística |
+| pero no despreciaré de mi Señor tan grande escuela | Libro abierto con luz emanando, manos tocándolo con reverencia, sabiduría divina representada visualmente, atmósfera de aprendizaje espiritual, iluminación dorada |
+| si sólo Él quiere limar a fondo y bien mis asperezas | Manos de alfarero moldeando arcilla, proceso de transformación, pulir piedra áspera hasta brillar, metáfora visual de refinamiento espiritual, proceso cinematográfico |
+| si sólo Él quiere dejarme una canción y una tibieza | Persona recibiendo guitarra/instrumento, expresión de propósito encontrado, luz cálida llenando el espacio frío, transformación de dolor en arte y propósito |
+| que le haga bien al que sufre y nunca se consuela | Persona consolando a otra, compartiendo música o abrazo, cadena de consuelo pasando de uno a otro, propósito redentor del sufrimiento, composición esperanzadora y comunitaria |
+
+### **CORO FINAL**
+
+| LETRA | VISUAL |
+|-------|--------|
+| Son muchos años que nos conocemos… | Reprise del montaje inicial pero ahora con tonos más cálidos, misma persona más madura y en paz, transformación visible a través del tiempo, conclusión cinematográfica con esperanza |
+
+---
+
+## NOTAS DE DIRECCIÓN
+
+**Paleta de Colores:**
+- Versos: Tonos otoñales (ocres, marrones, grises, azules) - melancolía y soledad
+- Transición: Luz dorada suave entrando progresivamente - esperanza
+- Coro: Contraste entre oscuridad del abandono y luz de fidelidad divina
+- Final: Calidez y paz - transformación completada
+
+**Movimientos de Cámara:**
+- Movimientos lentos y contemplativos
+- Uso de cámara en mano para momentos emocionales
+- Transiciones suaves entre escenas
+- Planos fijos para momentos de reflexión profunda
+
+**Iluminación:**
+- Natural y suave al inicio (tarde otoñal)
+- Luz difusa por la bruma
+- Rayos de luz divina apareciendo gradualmente
+- Contraste entre sombras y luz para simbolizar el proceso espiritual
