@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor de Videos - Trio MDP</title>
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f5f7fa;
+            margin: 0;
+            padding: 0;
+        }
+
+        #app {
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* Ventana de Control */
+        .control-window {
+            padding: 20px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .control-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .control-header h1 {
+            margin: 0;
+            color: #333;
+            font-size: 28px;
+        }
+
+        .projector-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+        }
+
+        .projector-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* Vista Previa */
+        .preview-section {
+            margin-bottom: 30px;
+        }
+
+        .preview-section h2 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 22px;
+        }
+
+        .preview-container {
+            background: #000;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+            position: relative;
+        }
+
+        .preview-video {
+            width: 100%;
+            height: auto;
+            max-height: 400px;
+            display: block;
+            object-fit: contain;
+        }
+
+        .preview-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: white;
+            padding: 20px;
+            font-size: 16px;
+        }
+
+        /* Selector de Videos */
+        .video-selector-section {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .selector-group {
+            margin-bottom: 30px;
+        }
+
+        .selector-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .song-select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .song-select:hover {
+            border-color: #764ba2;
+        }
+
+        .song-select:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .videos-grid-section h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .no-videos {
+            text-align: center;
+            padding: 40px;
+            color: #999;
+            font-style: italic;
+        }
+
+        /* Footer */
+        .control-footer {
+            text-align: center;
+        }
+
+        .reload-btn {
+            background: #f8f9fa;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 12px 30px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .reload-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 100px;
+            color: #333;
+            font-size: 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+
+        .loading h2 {
+            color: white;
+        }
+
+        .loading p {
+            color: white;
+        }
+
+        .loading .control-btn {
+            background: white;
+            color: #667eea;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+            width: 100%;
+        }
+
+        .video-card {
+            cursor: pointer;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            background: #f8f9fa;
+            border: 3px solid transparent;
+        }
+
+        .video-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .video-card.active {
+            border-color: #667eea;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .video-thumbnail {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 aspect ratio */
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .video-card.active .video-thumbnail {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        }
+
+        .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 36px;
+            opacity: 0.9;
+        }
+
+        .video-card-name {
+            padding: 15px;
+            font-size: 14px;
+            font-weight: 500;
+            color: #333;
+            text-align: center;
+            word-wrap: break-word;
+        }
+
+        .video-card.active .video-card-name {
+            background: #667eea;
+            color: white;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div v-if="!isInitialized" class="loading">
+            <h2>📁 Selecciona la carpeta del proyecto</h2>
+            <p style="margin-top: 20px;">Se te pedirá seleccionar la carpeta raíz donde están las canciones</p>
+        </div>
+
+        <div v-else-if="folders.length === 0" class="loading">
+            <h2>⚠️ No se encontraron videos</h2>
+            <p style="margin-top: 20px;">Asegúrate de que cada carpeta de canción tenga una subcarpeta llamada "videos" con archivos de video (.mp4, .webm, .mov, .avi)</p>
+            <button class="control-btn" style="margin-top: 30px;" @click="requestDirectoryAccess">
+                🔄 Seleccionar otra carpeta
+            </button>
+        </div>
+
+        <div v-else>
+            <!-- Ventana de Control -->
+            <div class="control-window">
+                <div class="control-header">
+                    <h1>🎬 Control de Videos - Trio MDP</h1>
+                    <button class="projector-btn" @click="openProjectorWindow">
+                        📽️ {{ projectorWindow && !projectorWindow.closed ? 'Ventana Proyector Abierta' : 'Abrir Ventana Proyector' }}
+                    </button>
+                </div>
+
+                <!-- Vista previa del video -->
+                <div class="preview-section">
+                    <h2>Vista Previa</h2>
+                    <div class="preview-container">
+                        <video 
+                            ref="previewPlayer"
+                            class="preview-video"
+                            :src="currentVideoPath"
+                            autoplay
+                            loop
+                            muted
+                        ></video>
+                        <div class="preview-info">
+                            <strong>{{ currentSongName }}</strong> - {{ currentVideoName }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selector de videos -->
+                <div class="video-selector-section">
+                    <!-- Selector de canción (dropdown) -->
+                    <div class="selector-group">
+                        <label for="song-select">📁 Seleccionar Canción</label>
+                        <select 
+                            id="song-select" 
+                            v-model="selectedFolder" 
+                            @change="selectFolder(selectedFolder)"
+                            class="song-select"
+                        >
+                            <option v-for="folder in folders" :key="folder" :value="folder">
+                                {{ folder }} ({{ videos[folder]?.length || 0 }} videos)
+                            </option>
+                        </select>
+                    </div>
+
+                    <!-- Grid de videos -->
+                    <div v-if="selectedFolder" class="videos-grid-section">
+                        <h3>🎥 Videos disponibles</h3>
+                        <div v-if="currentVideos.length > 0" class="video-grid">
+                            <div 
+                                v-for="video in currentVideos"
+                                :key="video.path"
+                                class="video-card"
+                                :class="{ active: currentVideoPath === video.path }"
+                                @click="selectVideo(video)"
+                            >
+                                <div class="video-thumbnail">
+                                    <div class="play-icon">▶</div>
+                                </div>
+                                <div class="video-card-name">{{ video.name }}</div>
+                            </div>
+                        </div>
+                        <div v-else class="no-videos">
+                            No hay videos en esta carpeta
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Botón recargar -->
+                <div class="control-footer">
+                    <button class="reload-btn" @click="requestDirectoryAccess">
+                        🔄 Recargar Carpetas
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const { createApp } = Vue;
+
+        createApp({
+            data() {
+                return {
+                    isInitialized: false,
+                    showModal: false,
+                    folders: [],
+                    selectedFolder: null,
+                    currentVideoPath: '',
+                    currentVideoName: 'Selecciona un video',
+                    currentSongName: '',
+                    videos: {},
+                    videoObjects: {},
+                    directoryHandle: null,
+                    needsPermission: true,
+                    projectorWindow: null
+                }
+            },
+            computed: {
+                currentVideos() {
+                    if (!this.selectedFolder || !this.videos[this.selectedFolder]) {
+                        return [];
+                    }
+                    return this.videos[this.selectedFolder];
+                }
+            },
+            methods: {
+                async requestDirectoryAccess() {
+                    try {
+                        // Solicitar acceso a la carpeta del proyecto (solo lectura)
+                        this.directoryHandle = await window.showDirectoryPicker({
+                            mode: 'read',
+                            startIn: 'documents'
+                        });
+                        
+                        console.log('📂 Carpeta seleccionada:', this.directoryHandle.name);
+                        console.log('🔍 Escaneando carpetas...');
+                        
+                        // Guardar el handle en IndexedDB para acceso futuro
+                        await this.saveDirectoryHandle(this.directoryHandle);
+                        
+                        // Escanear el directorio
+                        await this.scanDirectory();
+                        
+                        this.needsPermission = false;
+                        this.isInitialized = true;
+                        
+                        if (this.folders.length > 0) {
+                            console.log(`✅ ${this.folders.length} carpetas con videos encontradas`);
+                        } else {
+                            alert('⚠️ No se encontraron carpetas con subcarpeta "videos".\n\nAsegúrate de:\n1. Seleccionar la carpeta raíz del proyecto\n2. Cada canción tenga una subcarpeta llamada "videos"\n3. Los videos estén en formato .mp4, .webm, .mov, .avi o .mkv');
+                        }
+                    } catch (err) {
+                        console.error('Error completo:', err);
+                        
+                        if (err.name === 'AbortError') {
+                            console.log('Usuario canceló la selección de carpeta');
+                        } else if (err.name === 'NotAllowedError') {
+                            alert('❌ Permiso denegado.\n\nPor favor, permite el acceso a la carpeta cuando el navegador lo solicite.');
+                        } else if (err.name === 'SecurityError') {
+                            alert('❌ Error de seguridad.\n\nEl navegador no permite acceder a esta carpeta por seguridad.\nIntenta con otra carpeta o revisa los permisos.');
+                        } else {
+                            alert(`❌ Error al acceder a la carpeta:\n${err.message}\n\nPor favor, intenta de nuevo o verifica que la carpeta sea accesible.`);
+                        }
+                    }
+                },
+
+                async saveDirectoryHandle(handle) {
+                    try {
+                        const db = await this.openDB();
+                        const tx = db.transaction('directoryHandles', 'readwrite');
+                        const store = tx.objectStore('directoryHandles');
+                        await store.put(handle, 'projectDirectory');
+                        await tx.complete;
+                        console.log('✅ Carpeta guardada para acceso futuro');
+                    } catch (err) {
+                        console.warn('No se pudo guardar el acceso a la carpeta:', err);
+                    }
+                },
+
+                async loadDirectoryHandle() {
+                    try {
+                        const db = await this.openDB();
+                        const tx = db.transaction('directoryHandles', 'readonly');
+                        const store = tx.objectStore('directoryHandles');
+                        const handle = await store.get('projectDirectory');
+                        
+                        if (handle) {
+                            // Verificar que aún tenemos permiso
+                            const permission = await handle.queryPermission({ mode: 'read' });
+                            
+                            if (permission === 'granted') {
+                                this.directoryHandle = handle;
+                                console.log('✅ Carpeta restaurada:', handle.name);
+                                return true;
+                            } else {
+                                console.log('⚠️ Se necesita renovar el permiso');
+                            }
+                        }
+                        return false;
+                    } catch (err) {
+                        console.warn('No se pudo restaurar el acceso a la carpeta:', err);
+                        return false;
+                    }
+                },
+
+                async openDB() {
+                    return new Promise((resolve, reject) => {
+                        const request = indexedDB.open('TrioMDPDatabase', 1);
+                        
+                        request.onerror = () => reject(request.error);
+                        request.onsuccess = () => resolve(request.result);
+                        
+                        request.onupgradeneeded = (event) => {
+                            const db = event.target.result;
+                            if (!db.objectStoreNames.contains('directoryHandles')) {
+                                db.createObjectStore('directoryHandles');
+                            }
+                        };
+                    });
+                },
+
+                async scanDirectory() {
+                    if (!this.directoryHandle) return;
+
+                    this.folders = [];
+                    this.videos = {};
+                    this.videoObjects = {};
+
+                    try {
+                        // Iterar sobre todas las entradas en el directorio raíz
+                        for await (const entry of this.directoryHandle.values()) {
+                            // Solo procesar directorios
+                            if (entry.kind === 'directory') {
+                                const folderName = entry.name;
+                                
+                                try {
+                                    // Intentar acceder a la subcarpeta 'videos' (solo lectura)
+                                    const videosFolder = await entry.getDirectoryHandle('videos', { create: false });
+                                    
+                                    // Si llegamos aquí, existe la carpeta videos
+                                    this.folders.push(folderName);
+                                    this.videos[folderName] = [];
+                                    this.videoObjects[folderName] = {};
+
+                                    // Iterar sobre los archivos en la carpeta 'videos'
+                                    for await (const videoEntry of videosFolder.values()) {
+                                        if (videoEntry.kind === 'file') {
+                                            const fileName = videoEntry.name;
+                                            const fileNameLower = fileName.toLowerCase();
+                                            
+                                            // Verificar si es un archivo de video
+                                            if (fileNameLower.endsWith('.mp4') || 
+                                                fileNameLower.endsWith('.webm') || 
+                                                fileNameLower.endsWith('.mov') ||
+                                                fileNameLower.endsWith('.avi') ||
+                                                fileNameLower.endsWith('.mkv')) {
+                                                
+                                                try {
+                                                    // Obtener el archivo
+                                                    const file = await videoEntry.getFile();
+                                                    const videoURL = URL.createObjectURL(file);
+                                                    
+                                                    const videoInfo = {
+                                                        name: fileName.replace(/\.[^/.]+$/, ''), // Remover extensión
+                                                        path: videoURL,
+                                                        folder: folderName,
+                                                        fileName: fileName
+                                                    };
+                                                    
+                                                    this.videos[folderName].push(videoInfo);
+                                                    this.videoObjects[folderName][fileName] = videoURL;
+                                                } catch (fileErr) {
+                                                    console.warn(`No se pudo leer el archivo ${fileName}:`, fileErr.message);
+                                                }
+                                            }
+                                        }
+                                    }
+
+                                    // Ordenar videos por nombre
+                                    if (this.videos[folderName].length > 0) {
+                                        this.videos[folderName].sort((a, b) => 
+                                            a.name.localeCompare(b.name, undefined, { numeric: true, sensitivity: 'base' })
+                                        );
+                                    }
+                                } catch (err) {
+                                    // No hay carpeta 'videos' en este directorio o no se puede acceder
+                                    console.log(`📁 ${folderName}: No tiene carpeta 'videos' o no es accesible`);
+                                }
+                            }
+                        }
+
+                        // Ordenar carpetas alfabéticamente y numéricamente
+                        this.folders.sort((a, b) => 
+                            a.localeCompare(b, undefined, { numeric: true, sensitivity: 'base' })
+                        );
+
+                        console.log('✅ Escaneo completado:', {
+                            carpetas: this.folders.length,
+                            videos: Object.values(this.videos).reduce((sum, arr) => sum + arr.length, 0)
+                        });
+                        
+                        if (this.folders.length === 0) {
+                            console.warn('⚠️ No se encontraron carpetas con subcarpeta "videos"');
+                        }
+                    } catch (err) {
+                        console.error('Error al escanear el directorio:', err);
+                        throw err;
+                    }
+                },
+                selectFolder(folder) {
+                    this.selectedFolder = folder;
+                    this.currentSongName = folder;
+                },
+                selectVideo(video) {
+                    this.currentVideoPath = video.path;
+                    this.currentVideoName = video.name;
+                    this.currentSongName = video.folder;
+                    
+                    // Enviar mensaje a la ventana del proyector
+                    if (this.projectorWindow && !this.projectorWindow.closed) {
+                        this.projectorWindow.postMessage({
+                            type: 'changeVideo',
+                            videoPath: video.path,
+                            videoName: video.name,
+                            songName: video.folder
+                        }, '*');
+                    }
+                    
+                    this.$nextTick(() => {
+                        const videoEl = this.$refs.previewPlayer;
+                        if (videoEl) {
+                            videoEl.currentTime = 0;
+                            videoEl.play().catch(err => {
+                                console.log('Error al reproducir:', err);
+                            });
+                        }
+                    });
+                },
+                openProjectorWindow() {
+                    // Si ya hay una ventana abierta, enfocarse en ella
+                    if (this.projectorWindow && !this.projectorWindow.closed) {
+                        this.projectorWindow.focus();
+                        return;
+                    }
+                    
+                    // Abrir nueva ventana del proyector
+                    this.projectorWindow = window.open(
+                        'projector.html',
+                        'ProjectorWindow',
+                        'width=1920,height=1080,fullscreen=yes'
+                    );
+                    
+                    // Esperar a que la ventana cargue y enviar el video actual
+                    if (this.projectorWindow) {
+                        this.projectorWindow.addEventListener('load', () => {
+                            setTimeout(() => {
+                                if (this.currentVideoPath) {
+                                    this.projectorWindow.postMessage({
+                                        type: 'changeVideo',
+                                        videoPath: this.currentVideoPath,
+                                        videoName: this.currentVideoName,
+                                        songName: this.currentSongName
+                                    }, '*');
+                                }
+                            }, 500);
+                        });
+                    }
+                }
+            },
+            async mounted() {
+                // Verificar si el navegador soporta File System Access API
+                if ('showDirectoryPicker' in window) {
+                    // Intentar restaurar el acceso guardado
+                    const restored = await this.loadDirectoryHandle();
+                    
+                    if (restored) {
+                        // Si se restauró correctamente, escanear el directorio
+                        console.log('🔍 Escaneando carpetas guardadas...');
+                        await this.scanDirectory();
+                        this.needsPermission = false;
+                        this.isInitialized = true;
+                        
+                        if (this.folders.length > 0) {
+                            console.log(`✅ ${this.folders.length} carpetas con videos encontradas`);
+                        }
+                    } else {
+                        // Si no se pudo restaurar, solicitar acceso
+                        this.requestDirectoryAccess();
+                    }
+                } else {
+                    alert('❌ Navegador no compatible\n\nTu navegador no soporta la API de acceso a archivos.\n\nPor favor, usa uno de estos navegadores:\n✅ Google Chrome (recomendado)\n✅ Microsoft Edge\n✅ Opera\n\n❌ Firefox no está soportado actualmente.');
+                    this.isInitialized = true;
+                }
+            },
+            watch: {
+                folders(newFolders) {
+                    // Cuando se cargan las carpetas, seleccionar la primera automáticamente
+                    if (newFolders.length > 0 && !this.selectedFolder) {
+                        this.selectFolder(newFolders[0]);
+                        
+                        this.$nextTick(() => {
+                            if (this.currentVideos.length > 0) {
+                                this.selectVideo(this.currentVideos[0]);
+                            }
+                        });
+                    }
+                }
+            }
+        }).mount('#app');
+    </script>
+</body>
+</html>
+

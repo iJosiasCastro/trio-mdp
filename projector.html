@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyector - Trio MDP</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #000;
+            overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .video-container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #projectorVideo {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .placeholder {
+            color: white;
+            text-align: center;
+            padding: 50px;
+        }
+
+        .placeholder h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            opacity: 0.8;
+        }
+
+        .placeholder p {
+            font-size: 24px;
+            opacity: 0.6;
+        }
+
+        /* Indicador de video actual (opcional, se puede ocultar) */
+        .video-info {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 18px;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-info.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="video-container">
+        <video 
+            id="projectorVideo"
+            style="display: none;"
+            autoplay
+            loop
+        ></video>
+
+        <div id="placeholder" class="placeholder">
+            <h1>📽️ Ventana del Proyector</h1>
+            <p>Esperando selección de video desde la ventana de control...</p>
+        </div>
+    </div>
+
+    <div id="videoInfo" class="video-info"></div>
+
+    <script>
+        const video = document.getElementById('projectorVideo');
+        const placeholder = document.getElementById('placeholder');
+        const videoInfo = document.getElementById('videoInfo');
+
+        let infoTimeout;
+
+        // Escuchar mensajes de la ventana de control
+        window.addEventListener('message', (event) => {
+            if (event.data.type === 'changeVideo') {
+                const { videoPath, videoName, songName } = event.data;
+                
+                // Cambiar el video
+                video.src = videoPath;
+                video.style.display = 'block';
+                placeholder.style.display = 'none';
+                
+                // Reproducir el video
+                video.currentTime = 0;
+                video.play().catch(err => {
+                    console.log('Error al reproducir:', err);
+                });
+
+                // Mostrar información del video brevemente
+                videoInfo.textContent = `${songName} - ${videoName}`;
+                videoInfo.classList.add('show');
+
+                clearTimeout(infoTimeout);
+                infoTimeout = setTimeout(() => {
+                    videoInfo.classList.remove('show');
+                }, 3000);
+            }
+        });
+
+        // Presionar F11 para entrar/salir de pantalla completa
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F11') {
+                e.preventDefault();
+                if (!document.fullscreenElement) {
+                    document.documentElement.requestFullscreen();
+                } else {
+                    document.exitFullscreen();
+                }
+            }
+        });
+
+        // Entrar en pantalla completa automáticamente
+        setTimeout(() => {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(err => {
+                    console.log('No se pudo entrar en pantalla completa:', err);
+                });
+            }
+        }, 500);
+    </script>
+</body>
+</html>
+
